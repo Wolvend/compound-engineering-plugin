@@ -1,0 +1,17 @@
+{
+  "name": "python-dev",
+  "version": "1.0.0",
+  "description": "Python development and review. 1 agent for opinionated Python code review.",
+  "author": {
+    "name": "Kieran Klaassen",
+    "email": "kieran@every.to",
+    "url": "https://github.com/kieranklaassen"
+  },
+  "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+  "repository": "https://github.com/EveryInc/compound-engineering-plugin",
+  "license": "MIT",
+  "keywords": [
+    "python",
+    "code-review"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "frontend-design",
+  "version": "1.0.0",
+  "description": "Design implementation, iteration, and Figma sync. 3 agents, 1 skill, and Playwright MCP for screenshots and visual comparison.",
+  "author": {
+    "name": "Kieran Klaassen",
+    "email": "kieran@every.to",
+    "url": "https://github.com/kieranklaassen"
+  },
+  "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+  "repository": "https://github.com/EveryInc/compound-engineering-plugin",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "figma",
+    "frontend",
+    "ui",
+    "playwright"
+  ],
+  "mcpServers": {
+    "pw": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
+      "env": {}
+    }
+  }
+}

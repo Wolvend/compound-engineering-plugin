@@ -1,0 +1,26 @@
+{
+  "name": "compound-engineering-core",
+  "version": "1.0.0",
+  "description": "Core compounding engineering workflow. 17 agents, 14 commands, 8 skills for research, review, and workflow automation. Framework-agnostic foundation.",
+  "author": {
+    "name": "Kieran Klaassen",
+    "email": "kieran@every.to",
+    "url": "https://github.com/kieranklaassen"
+  },
+  "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+  "repository": "https://github.com/EveryInc/compound-engineering-plugin",
+  "license": "MIT",
+  "keywords": [
+    "compound-engineering",
+    "workflow-automation",
+    "code-review",
+    "research",
+    "ai-powered"
+  ],
+  "mcpServers": {
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}

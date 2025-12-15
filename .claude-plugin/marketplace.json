@@ -6,21 +6,86 @@
   },
   "metadata": {
     "description": "Official Every plugin marketplace for Claude Code extensions",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "compound-engineering",
-      "description": "AI-powered development tools that get smarter with every use. Make each unit of engineering work easier than the last. Includes 27 specialized agents, 17 commands, and 13 skills.",
-      "version": "2.13.0",
+      "description": "Meta-package: installs all compound-engineering plugins. 27 agents, 17 commands, 13 skills for the complete experience.",
+      "version": "3.0.0",
       "author": {
         "name": "Kieran Klaassen",
         "url": "https://github.com/kieranklaassen",
         "email": "kieran@every.to"
       },
       "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
-      "tags": ["ai-powered", "compound-engineering", "workflow-automation", "code-review", "quality", "knowledge-management", "image-generation"],
+      "tags": ["ai-powered", "compound-engineering", "meta-package"],
       "source": "./plugins/compound-engineering"
+    },
+    {
+      "name": "compound-engineering-core",
+      "description": "Core compounding engineering workflow. 17 agents, 14 commands, 8 skills for research, review, and workflow automation. Framework-agnostic foundation.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Kieran Klaassen",
+        "url": "https://github.com/kieranklaassen",
+        "email": "kieran@every.to"
+      },
+      "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+      "tags": ["compound-engineering", "workflow-automation", "code-review", "research"],
+      "source": "./plugins/compound-engineering-core"
+    },
+    {
+      "name": "rails-dev",
+      "description": "Ruby/Rails development with DHH/37signals style. 4 agents, 4 skills for opinionated Rails code review and style conventions.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Kieran Klaassen",
+        "url": "https://github.com/kieranklaassen",
+        "email": "kieran@every.to"
+      },
+      "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+      "tags": ["rails", "ruby", "dhh", "37signals", "code-review"],
+      "source": "./plugins/rails-dev"
+    },
+    {
+      "name": "python-dev",
+      "description": "Python development and review. 1 agent for opinionated Python code review.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Kieran Klaassen",
+        "url": "https://github.com/kieranklaassen",
+        "email": "kieran@every.to"
+      },
+      "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+      "tags": ["python", "code-review"],
+      "source": "./plugins/python-dev"
+    },
+    {
+      "name": "typescript-dev",
+      "description": "TypeScript/JavaScript development and review. 2 agents for opinionated TypeScript code review and frontend race condition detection.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Kieran Klaassen",
+        "url": "https://github.com/kieranklaassen",
+        "email": "kieran@every.to"
+      },
+      "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+      "tags": ["typescript", "javascript", "code-review", "frontend"],
+      "source": "./plugins/typescript-dev"
+    },
+    {
+      "name": "frontend-design",
+      "description": "Design implementation, iteration, and Figma sync. 3 agents, 1 skill, and Playwright MCP for screenshots and visual comparison.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Kieran Klaassen",
+        "url": "https://github.com/kieranklaassen",
+        "email": "kieran@every.to"
+      },
+      "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+      "tags": ["design", "figma", "frontend", "ui", "playwright"],
+      "source": "./plugins/frontend-design"
     }
   ]
 }
