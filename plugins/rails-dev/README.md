@@ -5,11 +5,11 @@ Ruby/Rails development with DHH/37signals style conventions.
 ## Installation
 
 ```bash
-# Requires core plugin
-claude /plugin install compound-engineering-core
+# Install with core (recommended)
+claude /plugin install compound-engineering-core rails-dev
 
-# Install Rails tools
-claude /plugin install rails-dev
+# Add automation helpers for the full experience
+claude /plugin install compound-engineering-core rails-dev workflow-automation
 ```
 
 ## What's Included
@@ -30,15 +30,12 @@ claude /plugin install rails-dev
 
 ## Usage
 
-### Code Review
-
-The Rails reviewers are automatically used by `/workflows:review` when reviewing Rails code:
+The Rails reviewers integrate with `/workflows:review` from core:
 
 ```bash
+# Review a Rails PR with DHH-style feedback
 claude /workflows:review 123
 ```
-
-### Style Skills
 
 Invoke skills directly for style guidance:
 
@@ -60,3 +57,11 @@ This plugin embodies the 37signals approach:
 - **Records as state** - Not boolean columns
 - **Database-backed** - No Redis, use Solid Queue/Cache/Cable
 - **Build before gem** - Understand your code
+
+## Works Best With
+
+| Plugin | Why |
+|--------|-----|
+| `compound-engineering-core` | Required for `/workflows:review` |
+| `workflow-automation` | Batch PR resolution, changelog generation |
+| `frontend-design` | If doing Rails + Hotwire frontends |

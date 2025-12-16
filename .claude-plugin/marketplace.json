@@ -24,7 +24,7 @@
     },
     {
       "name": "compound-engineering-core",
-      "description": "Core compounding engineering workflow. 17 agents, 14 commands, 8 skills for research, review, and workflow automation. Framework-agnostic foundation.",
+      "description": "Core compounding engineering workflow. 14 agents, 4 commands, 5 skills. The essential plan-review-work-compound cycle.",
       "version": "1.0.0",
       "author": {
         "name": "Kieran Klaassen",
@@ -32,8 +32,34 @@
         "email": "kieran@every.to"
       },
       "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
-      "tags": ["compound-engineering", "workflow-automation", "code-review", "research"],
+      "tags": ["compound-engineering", "code-review", "research"],
       "source": "./plugins/compound-engineering-core"
+    },
+    {
+      "name": "workflow-automation",
+      "description": "Automation helpers for resolving PRs, todos, bugs, and generating changelogs. 3 agents, 7 commands, 1 skill.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Kieran Klaassen",
+        "url": "https://github.com/kieranklaassen",
+        "email": "kieran@every.to"
+      },
+      "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+      "tags": ["automation", "workflow", "pr-review"],
+      "source": "./plugins/workflow-automation"
+    },
+    {
+      "name": "plugin-dev",
+      "description": "Tools for developing Claude Code plugins. 3 commands, 2 skills for creating commands and skills.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Kieran Klaassen",
+        "url": "https://github.com/kieranklaassen",
+        "email": "kieran@every.to"
+      },
+      "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+      "tags": ["plugin-development", "meta"],
+      "source": "./plugins/plugin-dev"
     },
     {
       "name": "rails-dev",

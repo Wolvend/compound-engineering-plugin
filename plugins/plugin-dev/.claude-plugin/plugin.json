@@ -1,0 +1,19 @@
+{
+  "name": "plugin-dev",
+  "version": "1.0.0",
+  "description": "Tools for developing Claude Code plugins. 3 commands, 2 skills for creating commands and skills.",
+  "author": {
+    "name": "Kieran Klaassen",
+    "email": "kieran@every.to",
+    "url": "https://github.com/kieranklaassen"
+  },
+  "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+  "repository": "https://github.com/EveryInc/compound-engineering-plugin",
+  "license": "MIT",
+  "keywords": [
+    "plugin-development",
+    "commands",
+    "skills",
+    "meta"
+  ]
+}

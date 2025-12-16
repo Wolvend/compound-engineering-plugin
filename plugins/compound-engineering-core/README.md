@@ -1,6 +1,6 @@
 # compound-engineering-core
 
-Core compounding engineering workflow. Framework-agnostic foundation for AI-powered development.
+The essential workflow cycle: **plan → review → work → compound**.
 
 ## Installation
 
@@ -8,75 +8,43 @@ Core compounding engineering workflow. Framework-agnostic foundation for AI-powe
 claude /plugin install compound-engineering-core
 ```
 
+> **Get the full experience:** Core provides the foundation, but the real power comes from combining plugins. See [Recommended Combinations](#recommended-combinations) below.
+
 ## What's Included
 
-### Commands (14)
+### Commands (4)
 
-**Workflow Commands:**
+The core workflow cycle:
+
 - `/workflows:plan` - Create implementation plans
-- `/workflows:review` - Comprehensive code review
-- `/workflows:work` - Execute work items
-- `/workflows:compound` - Document solved problems
+- `/workflows:review` - Comprehensive code review with 14 specialized agents
+- `/workflows:work` - Execute plans systematically
+- `/workflows:compound` - Document solutions for future reference
 
-**Review Commands:**
-- `/plan_review` - Review plans with multiple agents
-- `/resolve_pr_parallel` - Resolve PR comments in parallel
+### Agents (14)
 
-**Automation Commands:**
-- `/resolve_parallel` - Resolve TODOs in parallel
-- `/resolve_todo_parallel` - Resolve CLI todos in parallel
-- `/reproduce-bug` - Reproduce and validate bugs
-- `/triage` - Triage findings
-- `/changelog` - Generate changelogs
+**Research agents** for understanding codebases:
+- `repo-research-analyst`, `best-practices-researcher`, `framework-docs-researcher`
+- `spec-flow-analyzer`, `git-history-analyzer`
 
-**Plugin Development:**
-- `/generate_command` - Create new commands
-- `/heal-skill` - Fix broken skills
-- `/create-agent-skill` - Create new skills
+**Review agents** for code quality:
+- `code-simplicity-reviewer`, `pattern-recognition-specialist`, `architecture-strategist`
+- `performance-oracle`, `security-sentinel`, `data-integrity-guardian`
+- `data-migration-expert`, `deployment-verification-agent`, `agent-native-reviewer`
 
-### Agents (17)
+### Skills (5)
 
-**Research:**
-- `repo-research-analyst` - Analyze repositories
-- `best-practices-researcher` - Research best practices
-- `framework-docs-researcher` - Research framework docs
-- `spec-flow-analyzer` - Analyze specifications
-- `git-history-analyzer` - Analyze git history
-
-**Review:**
-- `code-simplicity-reviewer` - Review for simplicity
-- `pattern-recognition-specialist` - Identify patterns
-- `architecture-strategist` - Review architecture
-- `performance-oracle` - Review performance
-- `security-sentinel` - Security review
-- `data-integrity-guardian` - Data integrity review
-- `data-migration-expert` - Migration review
-- `deployment-verification-agent` - Deployment verification
-- `agent-native-reviewer` - Agent accessibility review
-
-**Workflow:**
-- `bug-reproduction-validator` - Validate bug reports
-- `pr-comment-resolver` - Resolve PR comments
-- `every-style-editor` - Style editing
-
-### Skills (8)
-
-- `compound-docs` - Document solutions
+- `compound-docs` - Document solutions with YAML frontmatter
 - `file-todos` - File-based todo tracking
 - `git-worktree` - Git worktree management
-- `skill-creator` - Create new skills
-- `create-agent-skills` - Agent skill creation
-- `gemini-imagegen` - Gemini image generation
-- `agent-native-architecture` - Agent-native patterns
-- `every-style-editor` - Every style guide
+- `gemini-imagegen` - Image generation with Gemini
+- `agent-native-architecture` - Build agent-native features
 
 ### MCP Servers
 
 - **context7** - Library documentation lookup
 
 ## Usage
-
-After installing, use the workflow commands:
 
 ```bash
 # Plan a feature
@@ -88,15 +56,50 @@ claude /workflows:review 123
 # Execute a plan
 claude /workflows:work plans/my-plan.md
 
-# Document a solution
+# Document what you learned
 claude /workflows:compound
 ```
 
+## Recommended Combinations
+
+Core is just the beginning. Install additional plugins based on your stack:
+
+### For Rails Developers
+```bash
+claude /plugin install compound-engineering-core rails-dev workflow-automation
+```
+Adds DHH/37signals style guides, Rails-specific reviewers, and automation helpers.
+
+### For Full-Stack (Rails + TypeScript)
+```bash
+claude /plugin install compound-engineering-core rails-dev typescript-dev frontend-design workflow-automation
+```
+Complete coverage for Rails backends with TypeScript frontends and design tools.
+
+### For Python Developers
+```bash
+claude /plugin install compound-engineering-core python-dev workflow-automation
+```
+
+### For Plugin Developers
+```bash
+claude /plugin install compound-engineering-core plugin-dev
+```
+Add tools for creating your own commands and skills.
+
+### Everything (Meta-Package)
+```bash
+claude /plugin install compound-engineering
+```
+Installs all plugins at once.
+
 ## Related Plugins
 
-For framework-specific tools, install additional plugins:
-
-- `rails-dev` - Ruby/Rails style and review
-- `python-dev` - Python review
-- `typescript-dev` - TypeScript/JS review
-- `frontend-design` - Design tools with Playwright
+| Plugin | What it adds |
+|--------|--------------|
+| `rails-dev` | DHH/37signals style, Rails reviewers |
+| `python-dev` | Python code review |
+| `typescript-dev` | TypeScript/JS review, race condition detection |
+| `frontend-design` | Figma sync, design iteration, Playwright |
+| `workflow-automation` | PR resolution, batch operations, changelog |
+| `plugin-dev` | Create your own commands and skills |

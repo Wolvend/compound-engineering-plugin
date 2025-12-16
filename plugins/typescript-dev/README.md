@@ -5,11 +5,11 @@ TypeScript/JavaScript development and code review.
 ## Installation
 
 ```bash
-# Requires core plugin
-claude /plugin install compound-engineering-core
+# Install with core (recommended)
+claude /plugin install compound-engineering-core typescript-dev
 
-# Install TypeScript tools
-claude /plugin install typescript-dev
+# Add design tools for frontend work
+claude /plugin install compound-engineering-core typescript-dev frontend-design workflow-automation
 ```
 
 ## What's Included
@@ -21,7 +21,7 @@ claude /plugin install typescript-dev
 
 ## Usage
 
-The TypeScript reviewers are automatically used by `/workflows:review` when reviewing TypeScript/JavaScript code:
+The TypeScript reviewers integrate with `/workflows:review` from core:
 
 ```bash
 claude /workflows:review 123
@@ -35,3 +35,11 @@ The `julik-frontend-races-reviewer` specifically looks for:
 - Race conditions in async operations
 - Event handler timing issues
 - State update races
+
+## Works Best With
+
+| Plugin | Why |
+|--------|-----|
+| `compound-engineering-core` | Required for `/workflows:review` |
+| `frontend-design` | Design iteration with Playwright |
+| `workflow-automation` | Batch PR resolution |

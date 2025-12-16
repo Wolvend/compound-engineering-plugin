@@ -1,7 +1,7 @@
 {
   "name": "compound-engineering-core",
   "version": "1.0.0",
-  "description": "Core compounding engineering workflow. 17 agents, 14 commands, 8 skills for research, review, and workflow automation. Framework-agnostic foundation.",
+  "description": "Core compounding engineering workflow. 14 agents, 4 commands, 5 skills. The essential plan-review-work-compound cycle.",
   "author": {
     "name": "Kieran Klaassen",
     "email": "kieran@every.to",

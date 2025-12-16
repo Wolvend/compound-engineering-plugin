@@ -5,11 +5,11 @@ Python development and code review.
 ## Installation
 
 ```bash
-# Requires core plugin
-claude /plugin install compound-engineering-core
+# Install with core (recommended)
+claude /plugin install compound-engineering-core python-dev
 
-# Install Python tools
-claude /plugin install python-dev
+# Add automation for the full experience
+claude /plugin install compound-engineering-core python-dev workflow-automation
 ```
 
 ## What's Included
@@ -20,7 +20,7 @@ claude /plugin install python-dev
 
 ## Usage
 
-The Python reviewer is automatically used by `/workflows:review` when reviewing Python code:
+The Python reviewer integrates with `/workflows:review` from core:
 
 ```bash
 claude /workflows:review 123
@@ -34,3 +34,10 @@ This plugin is small but growing. Planned additions:
 - FastAPI/Django patterns
 - Type hint reviewer
 - Testing patterns
+
+## Works Best With
+
+| Plugin | Why |
+|--------|-----|
+| `compound-engineering-core` | Required for `/workflows:review` |
+| `workflow-automation` | Batch PR resolution |

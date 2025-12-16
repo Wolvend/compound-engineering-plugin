@@ -5,11 +5,11 @@ Design implementation, iteration, and Figma sync.
 ## Installation
 
 ```bash
-# Requires core plugin
-claude /plugin install compound-engineering-core
+# Install with core (recommended)
+claude /plugin install compound-engineering-core frontend-design
 
-# Install design tools
-claude /plugin install frontend-design
+# Full frontend stack
+claude /plugin install compound-engineering-core typescript-dev frontend-design workflow-automation
 ```
 
 ## What's Included
@@ -60,3 +60,11 @@ claude "Review if this implementation matches the Figma design"
 
 - Node.js (for Playwright MCP)
 - Playwright is installed automatically via `npx`
+
+## Works Best With
+
+| Plugin | Why |
+|--------|-----|
+| `compound-engineering-core` | Base workflow |
+| `typescript-dev` | TypeScript/JS review for frontend code |
+| `workflow-automation` | Batch operations |
