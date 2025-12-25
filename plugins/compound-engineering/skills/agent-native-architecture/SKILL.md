@@ -70,6 +70,7 @@ What aspect of agent native architecture do you need help with?
 8. **Shared workspace** - Set up agents and users in the same data space
 9. **Testing** - Test agent-native apps for capability and parity
 10. **Mobile patterns** - Handle background execution, permissions, cost
+11. **API integration** - Connect to external APIs (HealthKit, HomeKit, GraphQL)
 
 **Wait for response before proceeding.**
 </intake>
@@ -77,7 +78,7 @@ What aspect of agent native architecture do you need help with?
 <routing>
 | Response | Action |
 |----------|--------|
-| 1, "design", "architecture", "plan" | Read [architecture-patterns.md](./references/architecture-patterns.md) |
+| 1, "design", "architecture", "plan" | Read [architecture-patterns.md](./references/architecture-patterns.md), then apply Architecture Checklist below |
 | 2, "tool", "mcp", "primitive" | Read [mcp-tool-design.md](./references/mcp-tool-design.md) |
 | 3, "prompt", "system prompt", "behavior" | Read [system-prompt-design.md](./references/system-prompt-design.md) |
 | 4, "self-modify", "evolve", "git" | Read [self-modification.md](./references/self-modification.md) |
@@ -87,9 +88,44 @@ What aspect of agent native architecture do you need help with?
 | 8, "workspace", "shared", "files", "filesystem" | Read [shared-workspace-architecture.md](./references/shared-workspace-architecture.md) |
 | 9, "test", "testing", "verify", "validate" | Read [agent-native-testing.md](./references/agent-native-testing.md) |
 | 10, "mobile", "ios", "android", "background" | Read [mobile-patterns.md](./references/mobile-patterns.md) |
+| 11, "api", "healthkit", "homekit", "graphql", "external" | Read [mcp-tool-design.md](./references/mcp-tool-design.md) (Dynamic Capability Discovery section) |
 
 **After reading the reference, apply those patterns to the user's specific context.**
 </routing>
+
+<architecture_checklist>
+## Architecture Review Checklist (Apply During Design)
+
+When designing an agent-native system, verify these **before implementation**:
+
+### Tool Design
+- [ ] **Dynamic vs Static:** For external APIs where agent should have full user-level access (HealthKit, HomeKit, GraphQL), use Dynamic Capability Discovery. Only use static mapping if intentionally limiting agent scope.
+- [ ] **CRUD Completeness:** Every entity has create, read, update, AND delete tools
+- [ ] **Primitives not Workflows:** Tools enable capability, they don't encode business logic
+- [ ] **API as Validator:** Use `z.string()` inputs when the API validates, not `z.enum()`
+
+### Action Parity
+- [ ] **Capability Map:** Every UI action has a corresponding agent tool
+- [ ] **Edit/Delete:** If UI can edit or delete, agent must be able to too
+- [ ] **The Write Test:** "Write something to [app location]" must work for all locations
+
+### UI Integration
+- [ ] **Agent → UI:** Define how agent changes reflect in UI (shared service, file watching, or event bus)
+- [ ] **No Silent Actions:** Agent writes should trigger UI updates immediately
+- [ ] **Capability Discovery:** Users can learn what agent can do (onboarding, hints)
+
+### Context Injection
+- [ ] **Available Resources:** System prompt includes what exists (files, data, types)
+- [ ] **Available Capabilities:** System prompt documents what agent can do with user vocabulary
+- [ ] **Dynamic Context:** Context refreshes for long sessions (or provide `refresh_context` tool)
+
+### Mobile (if applicable)
+- [ ] **Background Execution:** Checkpoint/resume pattern for iOS app suspension
+- [ ] **Permissions:** Just-in-time permission requests in tools
+- [ ] **Cost Awareness:** Model tier selection (Haiku/Sonnet/Opus)
+
+**When designing architecture, explicitly address each checkbox in your plan.**
+</architecture_checklist>
 
 <quick_start>
 Build a prompt-native agent in three steps:
@@ -135,7 +171,7 @@ All references in `references/`:
 
 **Core Patterns:**
 - **Architecture:** [architecture-patterns.md](./references/architecture-patterns.md)
-- **Tool Design:** [mcp-tool-design.md](./references/mcp-tool-design.md)
+- **Tool Design:** [mcp-tool-design.md](./references/mcp-tool-design.md) - includes Dynamic Capability Discovery, CRUD Completeness
 - **Prompts:** [system-prompt-design.md](./references/system-prompt-design.md)
 - **Self-Modification:** [self-modification.md](./references/self-modification.md)
 - **Refactoring:** [refactoring-to-prompt-native.md](./references/refactoring-to-prompt-native.md)
@@ -250,6 +286,28 @@ Agent: "What would you like help with?"
 // Agent doesn't mention it can publish to feed, research books, etc.
 ```
 Fix: Include capability hints in agent responses or provide onboarding.
+
+**Static Tool Mapping (for agent-native apps)**
+Building individual tools for each API endpoint when you want the agent to have full access.
+```typescript
+// You built 50 tools for 50 HealthKit types
+tool("read_steps", ...)
+tool("read_heart_rate", ...)
+tool("read_sleep", ...)
+// When glucose tracking is added... code change required
+// Agent can only access what you anticipated
+```
+Fix: Use Dynamic Capability Discovery - one `list_*` tool to discover what's available, one generic tool to access any type. See [mcp-tool-design.md](./references/mcp-tool-design.md). (Note: Static mapping is fine for constrained agents with intentionally limited scope.)
+
+**Incomplete CRUD**
+Agent can create but not update or delete.
+```typescript
+// ❌ User: "Delete that journal entry"
+// Agent: "I don't have a tool for that"
+tool("create_journal_entry", ...)
+// Missing: update_journal_entry, delete_journal_entry
+```
+Fix: Every entity needs full CRUD (Create, Read, Update, Delete). The CRUD Audit: for each entity, verify all four operations exist.
 </anti_patterns>
 
 <success_criteria>
@@ -264,14 +322,21 @@ You've built a prompt-native agent when:
 - [ ] The agent can surprise you with clever approaches you didn't anticipate
 - [ ] You could add a new feature by writing a new prompt section, not new code
 
+**Tool Design Criteria:**
+- [ ] External APIs (where agent should have full access) use Dynamic Capability Discovery
+- [ ] Every entity has full CRUD (Create, Read, Update, Delete)
+- [ ] API validates inputs, not your enum definitions
+- [ ] Discovery tools exist for each API surface (`list_*`, `discover_*`)
+
 **Agent-Native Criteria:**
 - [ ] System prompt includes dynamic context about app state (available resources, recent activity)
 - [ ] Every UI action has a corresponding agent tool (action parity)
 - [ ] Agent tools are documented in the system prompt with user vocabulary
 - [ ] Agent and user work in the same data space (shared workspace)
-- [ ] Agent actions are immediately reflected in the UI
+- [ ] Agent actions are immediately reflected in the UI (shared service, file watching, or event bus)
 - [ ] The "write something to [app location]" test passes for all locations
-- [ ] Users can discover what the agent can do (capability hints)
+- [ ] Users can discover what the agent can do (capability hints, onboarding)
+- [ ] Context refreshes for long sessions (or `refresh_context` tool exists)
 
 **Mobile-Specific Criteria (if applicable):**
 - [ ] Background execution handling implemented (checkpoint/resume)

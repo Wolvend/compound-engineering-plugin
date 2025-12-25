@@ -504,6 +504,148 @@ Documents/
 8. Chat agent can read all of this context when answering questions
 </examples>
 
+<icloud_sync>
+## iCloud File Storage for Multi-Device Sync (iOS)
+
+For agent-native iOS apps, use iCloud Drive's Documents folder for your shared workspace. This gives you **free, automatic multi-device sync** without building a sync layer or running a server.
+
+### Why iCloud Documents?
+
+| Approach | Cost | Complexity | Offline | Multi-Device |
+|----------|------|------------|---------|--------------|
+| Custom backend + sync | $$$ | High | Manual | Yes |
+| CloudKit database | Free tier limits | Medium | Manual | Yes |
+| **iCloud Documents** | Free (user's storage) | Low | Automatic | Automatic |
+
+iCloud Documents:
+- Uses user's existing iCloud storage (free 5GB, most users have more)
+- Automatic sync across all user's devices
+- Works offline, syncs when online
+- Files visible in Files.app for transparency
+- No server costs, no sync code to maintain
+
+### Implementation Pattern
+
+```swift
+// Get the iCloud Documents container
+func iCloudDocumentsURL() -> URL? {
+    FileManager.default.url(forUbiquityContainerIdentifier: nil)?
+        .appendingPathComponent("Documents")
+}
+
+// Your shared workspace lives in iCloud
+class SharedWorkspace {
+    let rootURL: URL
+
+    init() {
+        // Use iCloud if available, fall back to local
+        if let iCloudURL = iCloudDocumentsURL() {
+            self.rootURL = iCloudURL
+        } else {
+            // Fallback to local Documents (user not signed into iCloud)
+            self.rootURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        }
+    }
+
+    // All file operations go through this root
+    func researchPath(for bookId: String) -> URL {
+        rootURL.appendingPathComponent("Research/\(bookId)")
+    }
+
+    func journalPath() -> URL {
+        rootURL.appendingPathComponent("Journal")
+    }
+}
+```
+
+### Directory Structure in iCloud
+
+```
+iCloud Drive/
+└── YourApp/                          # Your app's container
+    └── Documents/                    # Visible in Files.app
+        ├── Journal/
+        │   ├── user/
+        │   │   └── 2025-01-15.md     # Syncs across devices
+        │   └── agent/
+        │       └── 2025-01-15.md     # Agent observations sync too
+        ├── Experiments/
+        │   └── magnesium-sleep/
+        │       ├── config.json
+        │       └── log.json
+        └── Research/
+            └── {topic}/
+                └── sources.md
+```
+
+### Handling Sync Conflicts
+
+iCloud handles conflicts automatically, but you should design for it:
+
+```swift
+// Check for conflicts when reading
+func readJournalEntry(at url: URL) throws -> JournalEntry {
+    // iCloud may create .icloud placeholder files for not-yet-downloaded content
+    if url.pathExtension == "icloud" {
+        // Trigger download
+        try FileManager.default.startDownloadingUbiquitousItem(at: url)
+        throw FileNotYetAvailableError()
+    }
+
+    let data = try Data(contentsOf: url)
+    return try JSONDecoder().decode(JournalEntry.self, from: data)
+}
+
+// For writes, use coordinated file access
+func writeJournalEntry(_ entry: JournalEntry, to url: URL) throws {
+    let coordinator = NSFileCoordinator()
+    var error: NSError?
+
+    coordinator.coordinate(writingItemAt: url, options: .forReplacing, error: &error) { newURL in
+        let data = try? JSONEncoder().encode(entry)
+        try? data?.write(to: newURL)
+    }
+
+    if let error = error {
+        throw error
+    }
+}
+```
+
+### What This Enables
+
+1. **User starts experiment on iPhone** → Agent creates `Experiments/sleep-tracking/config.json`
+2. **User opens app on iPad** → Same experiment visible, no sync code needed
+3. **Agent logs observation on iPhone** → Syncs to iPad automatically
+4. **User edits journal on iPad** → iPhone sees the edit
+
+### Entitlements Required
+
+Add to your app's entitlements:
+
+```xml
+<key>com.apple.developer.icloud-container-identifiers</key>
+<array>
+    <string>iCloud.com.yourcompany.yourapp</string>
+</array>
+<key>com.apple.developer.icloud-services</key>
+<array>
+    <string>CloudDocuments</string>
+</array>
+<key>com.apple.developer.ubiquity-container-identifiers</key>
+<array>
+    <string>iCloud.com.yourcompany.yourapp</string>
+</array>
+```
+
+### When NOT to Use iCloud Documents
+
+- **Sensitive data** - Use Keychain or encrypted local storage instead
+- **High-frequency writes** - iCloud sync has latency; use local + periodic sync
+- **Large media files** - Consider CloudKit Assets or on-demand resources
+- **Shared between users** - iCloud Documents is single-user; use CloudKit for sharing
+</icloud_sync>
+
 <checklist>
 ## Shared Workspace Checklist
 
@@ -529,4 +671,10 @@ Collaboration:
 - [ ] System prompt acknowledges user may edit files
 - [ ] Agent checks for user modifications before overwriting
 - [ ] Metadata tracks who created/modified (optional)
+
+Multi-Device (iOS):
+- [ ] Use iCloud Documents for shared workspace (free sync)
+- [ ] Fallback to local Documents if iCloud unavailable
+- [ ] Handle `.icloud` placeholder files (trigger download)
+- [ ] Use NSFileCoordinator for conflict-safe writes
 </checklist>
