@@ -76,10 +76,11 @@ claude /writing:compound drafts/debug-production/final.md
 
 ## Components
 
-### Commands (7)
+### Commands (8)
 
 | Command | Purpose |
 |---------|---------|
+| `/writing:init` | Interactive setup wizard for project writing environment |
 | `/writing:plan` | Transform a topic into a researched outline with sources |
 | `/writing:draft` | Execute an outline into prose with 3 variations |
 | `/writing:review` | Multi-agent editorial review from every angle |

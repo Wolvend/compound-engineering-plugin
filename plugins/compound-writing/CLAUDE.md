@@ -19,9 +19,10 @@ See `docs/WRITING-ARCHITECTURE.md` for the complete framework mapping:
 
 ## Current Components
 
-### Commands (7)
+### Commands (8)
 | Command | Phase | Purpose |
 |---------|-------|---------|
+| `/writing:init` | Setup | Interactive project setup wizard |
 | `/writing:plan` | Discovery/Architecture | Research and outline |
 | `/writing:draft` | Creation | Generate prose |
 | `/writing:review` | Editing | Multi-agent review |
