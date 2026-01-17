@@ -19,7 +19,7 @@ See `docs/WRITING-ARCHITECTURE.md` for the complete framework mapping:
 
 ## Current Components
 
-### Commands (6)
+### Commands (7)
 | Command | Phase | Purpose |
 |---------|-------|---------|
 | `/writing:plan` | Discovery/Architecture | Research and outline |
@@ -28,6 +28,7 @@ See `docs/WRITING-ARCHITECTURE.md` for the complete framework mapping:
 | `/writing:feedback` | Any | Capture preferences to scratchpad |
 | `/writing:knowledge` | Any | Manage voice/patterns/references |
 | `/writing:compound` | Post-publish | Extract patterns |
+| `/writing:skill` | Setup | Create new skills (voice, domain, format) |
 
 ### Agents (7)
 | Agent | Phase | Role |
@@ -122,7 +123,7 @@ plugins/compound-writing/
 ├── CLAUDE.md              # This file
 ├── README.md              # User documentation
 ├── agents/                # 7 agents
-├── commands/              # 6 commands
+├── commands/              # 7 commands
 ├── skills/                # 9 skills (organized by type)
 │   ├── core/              # Orchestration, assessment, memory
 │   │   ├── writing-orchestration/

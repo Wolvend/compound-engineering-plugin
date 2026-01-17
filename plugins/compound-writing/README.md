@@ -76,7 +76,7 @@ claude /writing:compound drafts/debug-production/final.md
 
 ## Components
 
-### Commands (6)
+### Commands (7)
 
 | Command | Purpose |
 |---------|---------|
@@ -86,6 +86,7 @@ claude /writing:compound drafts/debug-production/final.md
 | `/writing:feedback` | Capture real-time preferences into scratchpad |
 | `/writing:knowledge` | Manage voice profiles, patterns, and references |
 | `/writing:compound` | Extract patterns from successful writing |
+| `/writing:skill` | Create new skills (voice, domain, format) with research |
 
 ### Agents (7)
 
