@@ -22,6 +22,23 @@ Write → Feedback → Learn → Write (faster) → Feedback → Learn → Write
 
 ## Quick Start
 
+### First Time Setup
+
+```bash
+# Initialize compound-writing for your project (interactive wizard)
+claude /writing:init
+
+# Or use minimal setup (no questions, just create structure)
+claude /writing:init --minimal
+```
+
+This creates:
+- `.claude/writing-knowledge/` — Voice profiles, patterns, references
+- `drafts/` — Draft workspace with scratchpad
+- `.claude/CLAUDE.md` — Project writing preferences
+
+### Writing Workflow
+
 ```bash
 # 1. Plan a piece with research
 claude /writing:plan "How to debug production issues"
@@ -41,6 +58,22 @@ claude /writing:review drafts/debug-production/draft-v1.md
 
 # 6. Capture what worked
 claude /writing:compound drafts/debug-production/final.md
+```
+
+### Create Custom Skills
+
+```bash
+# Create a voice from your writing samples
+claude /writing:skill create voice "my-blog" ~/posts/*.md
+
+# Create a voice from description
+claude /writing:skill create voice "founder-voice" "direct, vulnerable, builds in public"
+
+# Create domain expertise
+claude /writing:skill create domain "persuasion" "Cialdini, rhetoric, behavioral economics"
+
+# Create platform-specific format
+claude /writing:skill create format "twitter-thread"
 ```
 
 ## The Complete Workflow
