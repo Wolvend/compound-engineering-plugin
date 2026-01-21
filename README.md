@@ -9,6 +9,22 @@ A Claude Code plugin marketplace featuring the **Compound Engineering Plugin** â
 /plugin install compound-engineering
 ```
 
+## OpenCode conversion CLI
+
+This repo includes a Bun/TypeScript CLI that converts Claude Code plugins to OpenCode.
+
+```bash
+bun install
+
+# list local plugins
+bun run src/index.ts list
+
+# convert the compound-engineering plugin into OpenCode format
+bun run src/index.ts install compound-engineering --to opencode --output .
+```
+
+Converted output is written to `opencode.json` plus `.opencode/agents` (and `.opencode/skills`).
+
 ## Workflow
 
 ```

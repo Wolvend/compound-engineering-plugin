@@ -1,0 +1,19 @@
+{
+  "name": "sample-plugin",
+  "version": "1.0.0",
+  "description": "Test fixture",
+  "mcpServers": {
+    "local-test": {
+      "type": "stdio",
+      "command": "echo",
+      "args": ["hello"]
+    },
+    "remote-test": {
+      "type": "http",
+      "url": "https://example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer token"
+      }
+    }
+  }
+}
