@@ -4,7 +4,7 @@ This repository contains a Bun/TypeScript CLI that converts Claude Code plugins 
 
 ## Working Agreement
 
-- **Branching:** Create a feature branch for any non-trivial change.
+- **Branching:** Create a feature branch for any non-trivial change. If already on the correct branch for the task, keep using it; do not create additional branches or worktrees unless explicitly requested.
 - **Safety:** Do not delete or overwrite user data. Avoid destructive commands.
 - **Testing:** Run `bun test` after changes that affect parsing, conversion, or output.
 - **Output Paths:** Keep OpenCode output at `opencode.json` and `.opencode/{agents,skills,plugins}`.
