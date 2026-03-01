@@ -13,21 +13,17 @@ import type {
 } from "../types/openclaw"
 import type { ClaudeToOpenCodeOptions } from "./claude-to-opencode"
 
+export type ClaudeToOpenClawOptions = ClaudeToOpenCodeOptions
+
 export function convertClaudeToOpenClaw(
   plugin: ClaudePlugin,
-  _options: ClaudeToOpenCodeOptions,
+  _options: ClaudeToOpenClawOptions,
 ): OpenClawBundle {
-  const manifest = buildManifest(plugin)
-  const packageJson = buildPackageJson(plugin)
+  const enabledCommands = plugin.commands.filter((cmd) => !cmd.disableModelInvocation)
 
   const agentSkills = plugin.agents.map(convertAgentToSkill)
-  const commandSkills = plugin.commands
-    .filter((cmd) => !cmd.disableModelInvocation)
-    .map(convertCommandToSkill)
-
-  const commands = plugin.commands
-    .filter((cmd) => !cmd.disableModelInvocation)
-    .map(convertCommand)
+  const commandSkills = enabledCommands.map(convertCommandToSkill)
+  const commands = enabledCommands.map(convertCommand)
 
   const skills: OpenClawSkillFile[] = [...agentSkills, ...commandSkills]
 
@@ -36,13 +32,15 @@ export function convertClaudeToOpenClaw(
     name: skill.name,
   }))
 
-  // Add original skill names to manifest.skills
   const allSkillDirs = [
     ...agentSkills.map((s) => s.dir),
     ...commandSkills.map((s) => s.dir),
     ...plugin.skills.map((s) => s.name),
   ]
-  manifest.skills = allSkillDirs.map((dir) => `skills/${dir}`)
+
+  const manifest = buildManifest(plugin, allSkillDirs)
+
+  const packageJson = buildPackageJson(plugin)
 
   const openclawConfig = plugin.mcpServers
     ? buildOpenClawConfig(plugin.mcpServers)
@@ -61,11 +59,12 @@ export function convertClaudeToOpenClaw(
   }
 }
 
-function buildManifest(plugin: ClaudePlugin): OpenClawPluginManifest {
+function buildManifest(plugin: ClaudePlugin, skillDirs: string[]): OpenClawPluginManifest {
   return {
     id: plugin.manifest.name,
     name: formatDisplayName(plugin.manifest.name),
     kind: "tool",
+    skills: skillDirs.map((dir) => `skills/${dir}`),
   }
 }
 
@@ -170,15 +169,17 @@ function buildOpenClawConfig(
 function generateEntryPoint(commands: OpenClawCommandRegistration[]): string {
   const commandRegistrations = commands
     .map((cmd) => {
-      const escapedName = cmd.name.replace(/"/g, '\\"')
-      const escapedDesc = (cmd.description ?? "").replace(/"/g, '\\"')
+      // JSON.stringify produces a fully-escaped string literal safe for JS/TS source embedding
+      const safeName = JSON.stringify(cmd.name)
+      const safeDesc = JSON.stringify(cmd.description ?? "")
+      const safeNotFound = JSON.stringify(`Command ${cmd.name} not found. Check skills directory.`)
       return `  api.registerCommand({
-    name: "${escapedName}",
-    description: "${escapedDesc}",
+    name: ${safeName},
+    description: ${safeDesc},
     acceptsArgs: ${cmd.acceptsArgs},
     requireAuth: false,
     handler: (ctx) => ({
-      text: skills["${escapedName}"] ?? "Command ${escapedName} not found. Check skills directory.",
+      text: skills[${safeName}] ?? ${safeNotFound},
     }),
   });`
     })
@@ -193,7 +194,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Pre-load skill bodies for command responses
-const skills = {};
+const skills: Record<string, string> = {};
 
 async function loadSkills() {
   const skillsDir = path.join(__dirname, "skills");
@@ -226,8 +227,8 @@ ${commandRegistrations}
 
 function rewritePaths(body: string): string {
   return body
-    .replace(/~\/\.claude\//g, "~/.openclaw/")
-    .replace(/\.claude\//g, ".openclaw/")
+    .replace(/(?<=^|\s|["'`])~\/\.claude\//gm, "~/.openclaw/")
+    .replace(/(?<=^|\s|["'`])\.claude\//gm, ".openclaw/")
     .replace(/\.claude-plugin\//g, "openclaw-plugin/")
 }
 
